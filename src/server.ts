@@ -1,11 +1,12 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
-import { saml2 } from './middlewares/saml2';
 import { getProducts } from './app/product';
+import { MongoDBConnection } from './mongodb';
+import { connectMongo } from './middlewares/connect_mongo';
 
 export const createApiServer = (
-  projectRoot: string,
+  mongoConnection: MongoDBConnection,
   production = false
 ): express.Express => {
   const server = express();
@@ -13,7 +14,7 @@ export const createApiServer = (
   //middlewares
   server.use(cors({ credentials: true, origin: true }));
   server.use(bodyParser.urlencoded({ extended: false }));
-  server.use(saml2(projectRoot));
+  server.use(connectMongo(mongoConnection));
 
   //endpoints
   const apiRoute = express.Router();

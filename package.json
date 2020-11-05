@@ -15,7 +15,7 @@
     "build:release": "tsc && webpack && docker build -t ndm_saml2 .",
     "test": "mocha --require ts-node/register src/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"src/**/test/*.test.ts\" --reporter=html --reporter=text npm run test",
-    "excute-task": "ts-node"
+    "execute": "ts-node"
   },
   "dependencies": {
     "@authenio/samlify-node-xmllint": "^2.0.0",
