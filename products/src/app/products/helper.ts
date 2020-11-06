@@ -37,11 +37,23 @@ export const validateAndExtract = async (
 export const buildQuery = (input: IProductSearchInput) => {
   const query = {
     brand: { $regex: new RegExp(`.*${input.brand}*`, 'i') },
-    name: { $regex: new RegExp(`.*${input.name}*`, 'i') }
+    name: { $regex: new RegExp(`.*${input.name}*`, 'i') },
+    price: {
+      $lt: input.lessThan,
+      $gt: isNil(input.greaterThan) ? 0 : input.greaterThan
+    }
   };
 
   if (isNil(input.name)) {
     delete query.name;
+  }
+
+  if (isNil(input.brand)) {
+    delete query.brand;
+  }
+
+  if (isNil(input.lessThan)) {
+    delete query.price.$lt;
   }
 
   return query;
