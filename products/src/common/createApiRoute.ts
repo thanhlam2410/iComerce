@@ -29,7 +29,12 @@ export const RequestHanler = <T>(
       return;
     }
 
-    await controller(input, req, res, next);
+    try {
+      await controller(input, req, res, next);
+    } catch (err) {
+      res.status(500).send(err.message);
+      throw err;
+    }
 
     try {
       if (isNil(logger)) return;

@@ -13,6 +13,7 @@ import {
   findShopHotline,
   findShopHotlineValidator
 } from './app/about/find_shop_hotline';
+import { initializePassport } from './middlewares/passport';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -22,6 +23,7 @@ export const createApiServer = (
 
   //middlewares
   server.use(cors({ credentials: true, origin: true }));
+  server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
   server.use(connectMongo(mongoConnection));
 
@@ -41,7 +43,11 @@ export const createApiServer = (
     RequestHanler(findShopHotline, findShopHotlineValidator)
   );
 
+  const adminRoute = express.Router();
+  initializePassport(adminRoute, mongoConnection);
+
   server.use('/api', apiRoute);
+  server.use('/admin', adminRoute);
 
   //404
   server.use((req, res) => {
