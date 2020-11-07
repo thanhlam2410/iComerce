@@ -1,38 +1,5 @@
-import joi from 'joi';
-import { IRequest } from '../../metadata';
-import express from 'express';
 import { isNil } from 'lodash';
-
-const ALLOWED_CHARACTER = new RegExp("[a-zA-Z0-9,.;:_'\\s-]*");
-
-interface IProductSearchInput {
-  brand?: string;
-  name?: string;
-  sort?: number;
-  lessThan?: number;
-  greaterThan?: number;
-}
-
-const INPUT_SCHEMA = joi.object<IProductSearchInput>({
-  brand: joi.string().regex(ALLOWED_CHARACTER),
-  name: joi.string().regex(ALLOWED_CHARACTER),
-  sort: joi.number().valid(0, 1),
-  lessThan: joi.number().integer(),
-  greaterThan: joi.number().integer()
-});
-
-export const validateAndExtract = async (
-  req: IRequest,
-  res: express.Response
-) => {
-  try {
-    const { query } = req;
-    await INPUT_SCHEMA.validateAsync(query);
-    return query as IProductSearchInput;
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
+import { IProductSearchInput } from './metadata';
 
 export const buildQuery = (input: IProductSearchInput) => {
   const query = {
@@ -55,6 +22,14 @@ export const buildQuery = (input: IProductSearchInput) => {
   if (isNil(input.lessThan)) {
     delete query.price.$lt;
   }
+
+  return query;
+};
+
+export const buildSortQuery = (sortField: string, order: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const query: { [key: string]: any } = {};
+  query[sortField] = order === 'asc' ? 1 : -1;
 
   return query;
 };

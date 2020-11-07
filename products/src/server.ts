@@ -1,9 +1,13 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
-import { getProducts } from './app/products/product';
 import { MongoDBConnection } from './mongodb';
 import { connectMongo } from './middlewares/connect_mongo';
+import { RequestHanler } from './common/createApiRoute';
+import {
+  findProductList,
+  findProductListValidator
+} from './app/products/find_product_list';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -18,7 +22,10 @@ export const createApiServer = (
 
   //endpoints
   const apiRoute = express.Router();
-  apiRoute.get('/products', getProducts);
+  apiRoute.get(
+    '/products',
+    RequestHanler(findProductList, findProductListValidator)
+  );
   server.use('/api', apiRoute);
 
   //404
