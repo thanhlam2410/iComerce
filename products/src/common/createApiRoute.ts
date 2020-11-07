@@ -1,5 +1,6 @@
 import { IRequest } from '../metadata';
 import express from 'express';
+import { isNil } from 'lodash';
 
 export type Validator<T> = (req: IRequest) => Promise<T>;
 export type Controller<T> = (
@@ -8,10 +9,12 @@ export type Controller<T> = (
   res: express.Response,
   next: express.NextFunction
 ) => Promise<void>;
+export type Logger<T> = (input: T) => Promise<void>;
 
 export const RequestHanler = <T>(
   controller: Controller<T>,
-  validator: Validator<T>
+  validator: Validator<T>,
+  logger?: Logger<T>
 ) => {
   return async (
     req: IRequest,
@@ -27,5 +30,12 @@ export const RequestHanler = <T>(
     }
 
     await controller(input, req, res, next);
+
+    try {
+      if (isNil(logger)) return;
+      input = await logger(input);
+    } catch (err) {
+      console.log(err);
+    }
   };
 };

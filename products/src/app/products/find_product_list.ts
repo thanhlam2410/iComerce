@@ -1,8 +1,9 @@
 import { buildQuery, buildSortQuery } from './helper';
-import { Controller, Validator } from '../../common/createApiRoute';
+import { Controller, Logger, Validator } from '../../common/createApiRoute';
 import joi from 'joi';
 import { IProductSearchInput } from './metadata';
 import { isNil } from 'lodash';
+import * as Countly from 'countly-sdk-nodejs';
 
 export const findProductList: Controller<IProductSearchInput> = async (
   input,
@@ -45,4 +46,18 @@ export const findProductListValidator: Validator<IProductSearchInput> = async (
   }
 
   return input;
+};
+
+export const findProductListLogger: Logger<IProductSearchInput> = async (
+  input
+) => {
+  Countly.add_event({
+    key: 'product-search',
+    segmentation: {
+      brand: input.brand,
+      maximumPrice: input.greaterThan,
+      terms: input.name
+    },
+    count: 1
+  });
 };

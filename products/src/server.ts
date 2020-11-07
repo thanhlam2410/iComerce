@@ -6,7 +6,8 @@ import { connectMongo } from './middlewares/connect_mongo';
 import { RequestHanler } from './common/createApiRoute';
 import {
   findProductList,
-  findProductListValidator
+  findProductListValidator,
+  findProductListLogger
 } from './app/products/find_product_list';
 import {
   findShopHotline,
@@ -28,7 +29,11 @@ export const createApiServer = (
   const apiRoute = express.Router();
   apiRoute.get(
     '/products',
-    RequestHanler(findProductList, findProductListValidator)
+    RequestHanler(
+      findProductList,
+      findProductListValidator,
+      findProductListLogger
+    )
   );
 
   apiRoute.get(

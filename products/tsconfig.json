@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "typeRoots": ["./typings", "thirdparty.d.ts", "./node_modules/@types", "./node_modules/**/*.d.ts"]
+    "typeRoots": ["./node_modules/@types", "./typings"]
   },
   "include": [
     "main.ts",
