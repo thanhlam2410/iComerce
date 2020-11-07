@@ -14,6 +14,10 @@ import {
   findShopHotlineValidator
 } from './app/about/find_shop_hotline';
 import { initializePassport } from './middlewares/passport';
+import {
+  createOrderFromAdmin,
+  createOrderFromAdminValidator
+} from './app/create_order/create_order';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -44,7 +48,11 @@ export const createApiServer = (
   );
 
   const adminRoute = express.Router();
-  initializePassport(adminRoute, mongoConnection);
+  adminRoute.use(initializePassport(mongoConnection));
+  adminRoute.post(
+    '/order',
+    RequestHanler(createOrderFromAdmin, createOrderFromAdminValidator)
+  );
 
   server.use('/api', apiRoute);
   server.use('/admin', adminRoute);

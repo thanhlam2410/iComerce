@@ -10,17 +10,14 @@ import { RequestHanler } from '../common/createApiRoute';
 import {
   loginAdminAccount,
   loginAdminAccountValidator
-} from '../app/admin/admin_login';
+} from '../app/admin_login/admin_login';
 import { isNil } from 'lodash';
 
-export const initializePassport = (
-  route: express.IRouter,
-  mongodb: MongoDBConnection
-) => {
+export const initializePassport = (mongodb: MongoDBConnection) => {
+  const route = express.Router();
   const adminModel = new DataModel(mongodb, ADMIN_ACCOUNT_SCHEMA, 'admin');
 
   passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, user);
   });
 
@@ -35,8 +32,6 @@ export const initializePassport = (
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       },
       async (jwt_payload, done) => {
-        console.log(jwt_payload);
-
         const user = await adminModel
           .getModel<AdminAccountModel>()
           .findById(jwt_payload.id);
@@ -58,4 +53,5 @@ export const initializePassport = (
   );
 
   route.use(passport.authenticate('jwt'));
+  return route;
 };

@@ -4,6 +4,7 @@ import joi from 'joi';
 import { IProductSearchInput } from './metadata';
 import { isNil } from 'lodash';
 import * as Countly from 'countly-sdk-nodejs';
+import { ALLOWED_CHARACTER } from '../../common/regex';
 
 export const findProductList: Controller<IProductSearchInput> = async (
   input,
@@ -24,7 +25,6 @@ export const findProductListValidator: Validator<IProductSearchInput> = async (
   req
 ) => {
   const { query } = req;
-  const ALLOWED_CHARACTER = new RegExp("[a-zA-Z0-9,.;:_'\\s-]*");
   const INPUT_SCHEMA = joi.object<IProductSearchInput>({
     brand: joi.string().regex(ALLOWED_CHARACTER),
     name: joi.string().regex(ALLOWED_CHARACTER),

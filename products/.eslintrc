@@ -11,7 +11,7 @@
   ],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "linebreak-style": "warn",
+    "linebreak-style": "off",
     "indent": ["warn", 2]
   }
 }
