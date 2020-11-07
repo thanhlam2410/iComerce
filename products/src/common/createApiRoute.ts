@@ -18,11 +18,14 @@ export const RequestHanler = <T>(
     res: express.Response,
     next: express.NextFunction
   ) => {
+    let input;
     try {
-      const input = await validator(req);
-      await controller(input, req, res, next);
+      input = await validator(req);
     } catch (err) {
       res.status(400).send(err.message);
+      return;
     }
+
+    await controller(input, req, res, next);
   };
 };

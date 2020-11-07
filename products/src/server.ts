@@ -8,6 +8,10 @@ import {
   findProductList,
   findProductListValidator
 } from './app/products/find_product_list';
+import {
+  findShopHotline,
+  findShopHotlineValidator
+} from './app/about/find_shop_hotline';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -26,6 +30,12 @@ export const createApiServer = (
     '/products',
     RequestHanler(findProductList, findProductListValidator)
   );
+
+  apiRoute.get(
+    '/hotline',
+    RequestHanler(findShopHotline, findShopHotlineValidator)
+  );
+
   server.use('/api', apiRoute);
 
   //404
