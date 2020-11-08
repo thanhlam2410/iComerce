@@ -1,5 +1,5 @@
 import { buildQuery, buildSortQuery, checkProductAvailability } from './helper';
-import { Controller, Logger, Validator } from '../../common/createApiRoute';
+import { Controller, Logger, Validator } from '../../common/request_handler';
 import joi from 'joi';
 import { IProductSearchInput } from './metadata';
 import { isNil } from 'lodash';

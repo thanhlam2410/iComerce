@@ -6,7 +6,7 @@ import {
   ADMIN_ACCOUNT_SCHEMA
 } from '../models/admin_account';
 import express from 'express';
-import { RequestHanler } from '../common/createApiRoute';
+import { RequestHanler } from '../common/request_handler';
 import {
   loginAdminAccount,
   loginAdminAccountValidator

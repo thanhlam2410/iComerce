@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { MongoDBConnection } from './mongodb';
 import { connectMongo } from './middlewares/connect_mongo';
-import { RequestHanler } from './common/createApiRoute';
+import { RequestHanler } from './common/request_handler';
 import {
   findProductList,
   findProductListValidator,
@@ -16,10 +16,15 @@ import {
 import { initializePassport } from './middlewares/passport';
 import {
   createOrderFromAdmin,
+  createOrderFromAdminLogger,
   createOrderFromAdminValidator
 } from './app/create_order/create_order';
 import redis from 'redis';
 import { connectRedis } from './middlewares/connect_redis';
+import {
+  updateStockFromAdmin,
+  updateStockFromAdminValidator
+} from './app/admin_update_stock/admin_update_product';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -55,7 +60,16 @@ export const createApiServer = (
   adminRoute.use(initializePassport(mongoConnection));
   adminRoute.post(
     '/order',
-    RequestHanler(createOrderFromAdmin, createOrderFromAdminValidator)
+    RequestHanler(
+      createOrderFromAdmin,
+      createOrderFromAdminValidator,
+      createOrderFromAdminLogger
+    )
+  );
+
+  adminRoute.post(
+    '/stock',
+    RequestHanler(updateStockFromAdmin, updateStockFromAdminValidator)
   );
 
   server.use('/api', apiRoute);

@@ -9,7 +9,7 @@ export type Controller<T> = (
   res: express.Response,
   next: express.NextFunction
 ) => Promise<void>;
-export type Logger<T> = (input: T) => Promise<void>;
+export type Logger<T> = (input: T, req: IRequest) => Promise<void>;
 
 export const RequestHanler = <T>(
   controller: Controller<T>,
@@ -38,7 +38,7 @@ export const RequestHanler = <T>(
 
     try {
       if (isNil(logger)) return;
-      input = await logger(input);
+      input = await logger(input, req);
     } catch (err) {
       console.log(err);
     }

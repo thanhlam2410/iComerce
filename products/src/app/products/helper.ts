@@ -1,6 +1,7 @@
-import { isEmpty, isNil, isNumber } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { IProductSearchInput, ProductOutput } from './metadata';
 import redis from 'redis';
+import { fetchRedisKey } from '../../common/redis';
 
 export const buildQuery = (input: IProductSearchInput) => {
   const query = {
@@ -35,23 +36,18 @@ export const buildSortQuery = (sortField: string, order: string) => {
   return query;
 };
 
-export const fetchRedisKey = (client: redis.RedisClient, key: string) => {
-  return new Promise<string>((resolve, reject) => {
-    client.get(key, (err, value) => {
-      if (!isNil(err)) return reject(err);
-      resolve(isNil(value) ? '' : value.toString());
-    });
-  });
-};
-
 export const populateProductAvaibility = async (
   client: redis.RedisClient,
   product: ProductOutput
 ) => {
   const value = await fetchRedisKey(client, product._id.toString());
+  console.log(product.name, value);
   return {
     ...product,
-    inStock: isEmpty(value) || !isNumber(value) ? 0 : Number.parseInt(value)
+    inStock:
+      isEmpty(value) || isNaN(Number.parseInt(value))
+        ? 0
+        : Number.parseInt(value)
   };
 };
 
@@ -64,6 +60,5 @@ export const checkProductAvailability = async (
   );
 
   const populatedProducts = await Promise.all(promises);
-  console.log(populatedProducts);
   return populatedProducts;
 };

@@ -1,4 +1,4 @@
-import { Controller, Validator } from '../../common/createApiRoute';
+import { Controller, Validator } from '../../common/request_handler';
 import { IAdminLoginInput } from './metadata';
 import joi from 'joi';
 import bcrypt from 'bcrypt';
