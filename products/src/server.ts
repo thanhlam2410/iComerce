@@ -18,9 +18,12 @@ import {
   createOrderFromAdmin,
   createOrderFromAdminValidator
 } from './app/create_order/create_order';
+import redis from 'redis';
+import { connectRedis } from './middlewares/connect_redis';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
+  redisClient: redis.RedisClient,
   production = false
 ): express.Express => {
   const server = express();
@@ -30,6 +33,7 @@ export const createApiServer = (
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
   server.use(connectMongo(mongoConnection));
+  server.use(connectRedis(redisClient));
 
   //endpoints
   const apiRoute = express.Router();

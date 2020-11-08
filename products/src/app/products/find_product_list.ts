@@ -1,4 +1,4 @@
-import { buildQuery, buildSortQuery } from './helper';
+import { buildQuery, buildSortQuery, checkProductAvailability } from './helper';
 import { Controller, Logger, Validator } from '../../common/createApiRoute';
 import joi from 'joi';
 import { IProductSearchInput } from './metadata';
@@ -14,10 +14,13 @@ export const findProductList: Controller<IProductSearchInput> = async (
   const { productModel } = req;
   const products = await productModel
     .find(buildQuery(input))
-    .sort(buildSortQuery(input.sortBy, input.order));
+    .sort(buildSortQuery(input.sortBy, input.order))
+    .lean();
+
+  const payload = await checkProductAvailability(req.redis, products);
 
   res.send({
-    payload: products
+    payload
   });
 };
 
