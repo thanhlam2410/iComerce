@@ -6,8 +6,7 @@ export type Validator<T> = (req: IRequest) => Promise<T>;
 export type Controller<T> = (
   input: T,
   req: IRequest,
-  res: express.Response,
-  next: express.NextFunction
+  res: express.Response
 ) => Promise<void>;
 export type Logger<T> = (input: T, req: IRequest) => Promise<void>;
 
@@ -16,11 +15,7 @@ export const RequestHanler = <T>(
   validator: Validator<T>,
   logger?: Logger<T>
 ) => {
-  return async (
-    req: IRequest,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
+  return async (req: IRequest, res: express.Response) => {
     let input;
     try {
       input = await validator(req);
@@ -30,7 +25,7 @@ export const RequestHanler = <T>(
     }
 
     try {
-      await controller(input, req, res, next);
+      await controller(input, req, res);
     } catch (err) {
       res.status(500).send(err.message);
       throw err;
