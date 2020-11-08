@@ -4,6 +4,7 @@ import { ProductModel } from '../../models/product';
 import { IPaginationModel } from '../../mongodb';
 import { CurrencyValue } from './metadata';
 import redis from 'redis';
+import { connectRabbitMQ } from '../../common/rabbitmq';
 
 export const findAndCheckProductAvaibility = async (
   productId: string,
@@ -37,4 +38,36 @@ export const convertPriceToPaymentValue = async (
 ) => {
   const exchangeRate = CurrencyValue[currency.toLowerCase()];
   return Math.floor((exchangeRate * price * 100) / 100);
+};
+
+export const publishEmailTask = async (
+  toEmail: string,
+  productName: string,
+  totalPrice: number,
+  currency: string
+) => {
+  try {
+    const channel = await connectRabbitMQ();
+    const message = JSON.stringify({
+      toEmail,
+      productName,
+      totalPrice,
+      currency
+    });
+
+    const QUEUE_NAME = 'PRODUCT_PURCHASE_EMAIL';
+
+    await channel.assertQueue(QUEUE_NAME, {
+      durable: true
+    });
+
+    channel.sendToQueue(QUEUE_NAME, Buffer.from(message), {
+      persistent: true
+    });
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };

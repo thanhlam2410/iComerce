@@ -2,7 +2,8 @@ import { isNil } from 'lodash';
 import { Controller, Logger, Validator } from '../../common/request_handler';
 import {
   convertPriceToPaymentValue,
-  findAndCheckProductAvaibility
+  findAndCheckProductAvaibility,
+  publishEmailTask
 } from './helper';
 import { ICreateOrderFromAdminInput } from './metadata';
 import joi from 'joi';
@@ -27,14 +28,25 @@ export const createOrderFromAdmin: Controller<ICreateOrderFromAdminInput> = asyn
   }
 
   const { client, paymentCurrency, shippingAddress } = input;
+  const price = await convertPriceToPaymentValue(
+    product.price,
+    paymentCurrency
+  );
   await orderModel.create({
     client,
     payment: {
       currency: paymentCurrency,
-      total: await convertPriceToPaymentValue(product.price, paymentCurrency)
+      total: price
     },
     shipping: { address: shippingAddress }
   });
+
+  await publishEmailTask(
+    input.client.email,
+    product.name,
+    price,
+    paymentCurrency
+  );
 
   res.send({
     success: true
