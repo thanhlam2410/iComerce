@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "f1e41123-8c90-440f-a8e0-c547b17573ac",
+		"name": "iCommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "find_products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products?lessThan=1000&sortBy=price&order=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "brand",
+							"value": "samsung",
+							"disabled": true
+						},
+						{
+							"key": "lessThan",
+							"value": "1000"
+						},
+						{
+							"key": "sortBy",
+							"value": "price"
+						},
+						{
+							"key": "order",
+							"value": "desc"
+						},
+						{
+							"key": "greaterThan",
+							"value": "99",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "note",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find_shop_hotline",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/hotline",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"hotline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin_login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYTY3ODNjZTFhMTE3MjJjMGRlZTRiOCIsImVtYWlsIjoibGFtdHR0QG1haWxuZXNpYS5jb20iLCJuYW1lIjoiRGVmYXVsdCIsImlhdCI6MTYwNDc0Njg4MSwiZXhwIjoxNjA0NzUwNDgxfQ.9o8E6g-mIy14ulAeFn9eBxuNchnnm5rNXGvXnAVyr0U",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"lamttt@mailnesia.com\",\n    \"password\": \"12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "greaterThan",
+							"value": "99",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_order_from_admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYTY3ODNjZTFhMTE3MjJjMGRlZTRiOCIsImVtYWlsIjoibGFtdHR0QG1haWxuZXNpYS5jb20iLCJuYW1lIjoiRGVmYXVsdCIsImlhdCI6MTYwNDgxODg5MSwiZXhwIjoxNjA0ODIyNDkxfQ.KRoJFhetVOka50_7x01IdM_ZMnmME3rDh6J6RkiJHB8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client\": {\n        \"email\": \"lamttt@mailnesia.com\",\n        \"name\": \"Lam Tran\",\n        \"phone\": \"0908235601\",\n        \"gender\": \"M\"\n    },\n    \"paymentCurrency\": \"vnd\",\n    \"productId\": \"5fa3bf98f43f93252d8f1080\",\n    \"shippingAddress\": \"VmlldG5hbQ==\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"order"
+					],
+					"query": [
+						{
+							"key": "greaterThan",
+							"value": "99",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_stock_from_admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYTY3ODNjZTFhMTE3MjJjMGRlZTRiOCIsImVtYWlsIjoibGFtdHR0QG1haWxuZXNpYS5jb20iLCJuYW1lIjoiRGVmYXVsdCIsImlhdCI6MTYwNDgxODg5MSwiZXhwIjoxNjA0ODIyNDkxfQ.KRoJFhetVOka50_7x01IdM_ZMnmME3rDh6J6RkiJHB8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"5fa3bf98f43f93252d8f1080\",\n    \"amount\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/admin/stock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"stock"
+					],
+					"query": [
+						{
+							"key": "greaterThan",
+							"value": "99",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

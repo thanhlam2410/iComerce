@@ -4,17 +4,18 @@ import cors from 'cors';
 import { MongoDBConnection } from './mongodb';
 import { connectMongo } from './middlewares/connect_mongo';
 import { RequestHanler } from './common/request_handler';
+import { initializePassport } from './middlewares/passport';
 import {
-  findProductList,
-  findProductListValidator,
-  findProductListLogger
-} from './app/products/find_product_list';
-import {
-  findShopHotline,
-  findShopHotlineValidator
-} from './app/about/find_shop_hotline';
+  createOrderFromAdmin,
+  createOrderFromAdminLogger,
+  createOrderFromAdminValidator
+} from './app/create_order/create_order';
 import redis from 'redis';
 import { connectRedis } from './middlewares/connect_redis';
+import {
+  updateStockFromAdmin,
+  updateStockFromAdminValidator
+} from './app/admin_update_stock/admin_update_product';
 
 export const createApiServer = (
   mongoConnection: MongoDBConnection,
@@ -30,23 +31,23 @@ export const createApiServer = (
   server.use(connectMongo(mongoConnection));
   server.use(connectRedis(redisClient));
 
-  //endpoints
-  const apiRoute = express.Router();
-  apiRoute.get(
-    '/products',
+  const adminRoute = express.Router();
+  adminRoute.use(initializePassport(mongoConnection));
+  adminRoute.post(
+    '/order',
     RequestHanler(
-      findProductList,
-      findProductListValidator,
-      findProductListLogger
+      createOrderFromAdmin,
+      createOrderFromAdminValidator,
+      createOrderFromAdminLogger
     )
   );
 
-  apiRoute.get(
-    '/hotline',
-    RequestHanler(findShopHotline, findShopHotlineValidator)
+  adminRoute.post(
+    '/stock',
+    RequestHanler(updateStockFromAdmin, updateStockFromAdminValidator)
   );
 
-  server.use('/api', apiRoute);
+  server.use('/admin', adminRoute);
 
   //404
   server.use((req, res) => {
