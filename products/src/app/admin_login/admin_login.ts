@@ -36,15 +36,18 @@ export const loginAdminAccount: Controller<IAdminLoginInput> = async (
 export const loginAdminAccountValidator: Validator<IAdminLoginInput> = async (
   req
 ) => {
-  const { body } = req;
+  try {
+    const { body } = req;
+    const INPUT_SCHEMA = joi
+      .object<IAdminLoginInput>({
+        email: joi.string().email().required(),
+        password: joi.string().required()
+      })
+      .required();
 
-  const INPUT_SCHEMA = joi
-    .object<IAdminLoginInput>({
-      email: joi.string().email().required(),
-      password: joi.string().required()
-    })
-    .required();
-
-  await INPUT_SCHEMA.validateAsync(body);
-  return body as IAdminLoginInput;
+    await INPUT_SCHEMA.validateAsync(body);
+    return body as IAdminLoginInput;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };
