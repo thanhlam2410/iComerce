@@ -14,7 +14,7 @@
 - [X] Code folder structure and the libraries / frameworks being used.
 - [X] All the required steps in order to get the applications run on local
 computer.
-- [X] CURL commands to verify the APIs.![Postman Collection](<iCommerce.postman_collection.json>)
+- [X] CURL commands to verify the APIs. [Postman Collection](<iCommerce.postman_collection.json>)
 
 ## High Level Design
 
