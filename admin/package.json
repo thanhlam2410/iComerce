@@ -12,7 +12,7 @@
     "clean": "rm -rf ./build && rm -rf ./dist",
     "lint": "eslint . --ext .ts",
     "build": "tsc && webpack",
-    "build:release": "tsc && webpack && docker build -t ndm_saml2 .",
+    "build:release": "tsc && webpack && docker build -t icommerce_admin .",
     "test": "jest",
     "coverage": "nyc -r lcov -e .ts -x \"src/**/test/*.test.ts\" --reporter=html --reporter=text npm run test",
     "execute": "ts-node"
