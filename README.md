@@ -7,8 +7,8 @@
 - [X] A high-level solution diagram for the components/infrastructure design if any.
 - [X] Sequence diagram for a specific workflow.
 
-- [] Entity relationship diagram for the database.
-- [] Some level of testing should be implemented. *(Unit Test only, not fully covered)*
+- [-] Entity relationship diagram for the database.
+- [-] Some level of testing should be implemented. *(Unit Test only, not fully covered)*
 
 - [X] Software development principles, patterns & practices being applied
 - [X] Code folder structure and the libraries / frameworks being used.
