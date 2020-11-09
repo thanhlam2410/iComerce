@@ -2,21 +2,19 @@
 
 ## Requirements
 
-[X] At least ​two​ backend application services to serve an API call operation. The example implementation ​must​ demonstrate inter-service communication between these services.
+- [X] At least ​two​ backend application services to serve an API call operation. The example implementation ​must​ demonstrate inter-service communication between these services.
 
-[X] A Readme file explains:
+- [X] A high-level solution diagram for the components/infrastructure design if any.
+- [X] Sequence diagram for a specific workflow.
 
-- A high-level solution diagram for the components/infrastructure design if any.
-- Sequence diagram for a specific workflow.
+- [] Entity relationship diagram for the database.
+- [] Some level of testing should be implemented. *(Unit Test only, not fully covered)*
 
-[] Entity relationship diagram for the database.
-[-] Some level of testing should be implemented. *(Unit Test only, not fully covered)*
-
-[X] Software development principles, patterns & practices being applied
-[X] Code folder structure and the libraries / frameworks being used.
-[X] All the required steps in order to get the applications run on local
+- [X] Software development principles, patterns & practices being applied
+- [X] Code folder structure and the libraries / frameworks being used.
+- [X] All the required steps in order to get the applications run on local
 computer.
-[X] CURL commands to verify the APIs. *Using Postman collection attached inside repo*
+- [X] CURL commands to verify the APIs. *Using Postman collection attached inside repo*
 
 ## High Level Design
 
