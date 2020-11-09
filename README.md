@@ -14,7 +14,7 @@
 - [X] Code folder structure and the libraries / frameworks being used.
 - [X] All the required steps in order to get the applications run on local
 computer.
-- [X] CURL commands to verify the APIs. *Using Postman collection attached inside repo*
+- [X] CURL commands to verify the APIs.![Postman Collection](<iCommerce.postman_collection.json>)
 
 ## High Level Design
 
@@ -39,11 +39,11 @@ computer.
 
 ## Configure and Run Admin Service
 
-[a relative link](admin/README.md.md)
+[Admin Service](admin/README.md)
 
 ## Configure and Run Product Service
 
-[a relative link](products/README.md.md)
+[Products Service](products/README.md)
 
 ## Technical Stack
 
